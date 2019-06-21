@@ -32,6 +32,7 @@ var _failed = function(e) {
 
 /* make the buttons for the sheets */
 var make_buttons = function(sheetnames, cb) {
+  console.log("test here");
   var buttons = document.getElementById('buttons');
   buttons.innerHTML = "";
   sheetnames.forEach(function(s, idx) {
@@ -61,6 +62,8 @@ function _resize() {
 }
 window.addEventListener('resize', _resize);
 
+
+
 var _onsheet = function(json, sheetnames, select_sheet_cb) {
   document.getElementById('footnote').style.display = "none";
 
@@ -81,5 +84,6 @@ var _onsheet = function(json, sheetnames, select_sheet_cb) {
   /* load data */
   cdg.data = json;
 };
+
 
 

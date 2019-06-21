@@ -6,10 +6,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Excel File Preview</title>
+        <link rel="shortcut icon" href="">
         <script type="text/javascript" src="/hadatac/assets/lib/jquery/jquery.js"></script>
         <script type="text/javascript" src="/hadatac/assets/javascripts/moment-with-locales.js"></script>
         <script type="text/javascript" src="/hadatac/assets/lib/bootstrap/js/bootstrap.js"></script>
         <script type="text/javascript" src="/hadatac/assets/javascripts/bootstrap-datetimepicker.js"></script>
+        
         <!-- <script type="text/javascript" src="/hadatac/assets/javascript/routes.js" defer="defer"></script>
          I replaced because it was pointed to javascript no javascripts -mj
         -->
@@ -84,31 +86,109 @@
 
     <script src="/hadatac/assets/sheetjs/vendor/alertify.js"></script>
     <script src="https://unpkg.com/canvas-datagrid/dist/canvas-datagrid.js"></script>
+    
 
     <link rel="stylesheet" href="/hadatac/assets/sheetjs/css/sheetjs.css">
+   
     <link rel="stylesheet" media="screen" href="/hadatac/assets/sheetjs/vendor/alertify.css">
-
+    <link rel="stylesheet" href="/hadatac/assets/sheetjs/css/sheet2js.css">
     <div id="rcorners">
     <h4>SDD-34.xlsx</h4>
 
         <input class="btn btn-primary" type="button" id="upload" value="Save"/>
+        
 
     <a href="/hadatac/annotator/downloadfile?file_id=439c8b71-470f-4f1f-8d80-3f2a299b6fb9" class="btn btn-primary" role="button">Download</a>
+      <button class="btn btn-primary">Back</button>
+      <button class="btn btn-primary" style=margin-left:5px>Consider SSD</button>
+        Description of Column Variable:
+        <input type="text" id="varDescription" value=" "/>
+     
+      <button class="main-nav" id="show">Show Options</button>
+      <button class="Close" id="hide">Hide Options</button>
+      
+      
+    
+   
+       
+        <div class="mobile-nav">
+          <p id="effect">These are ontologies displayed below:</p>
+            
+            <select class="menuoptions" id="menulist" size=5 onchange="chooseItem(this)">
+                <option value="Choose from Below">Choose from Below</option>
+            </select>
+            <div id="editRowsAdd">
+              
+              <div class="dropdown">
+                  <button class="insertrowbtn">Insert Row Above</button>
+                  <div class="dropdown-child">
+                    <input  type="text" id="textInput1" value=" " />
+                  </div>
+              </div>
+
+              <script>
+              document.getElementById('textInput1').onkeypress=function(e){
+                if(e.keyCode==13){
+                    rowEnteredAdd();
+                }
+              }
+              </script> 
+            </div>
+
+
+            <div id=editRowsRemove>
+            <div class="dropdown">
+                <button class="removerowbtn">Remove Row</button>
+                <div class="dropdown-child">
+                  <input  type="text" id="textInput2" value=" " />
+                </div>
+            </div>
+            <script>
+                document.getElementById('textInput2').onkeypress=function(e){
+                  if(e.keyCode==13){
+                      rowEnteredRemove();
+                  }
+                }
+            </script>
+            </div>
+            
+            
+            
+            <!-- <div id="textbox">
+                <input id="name" type="text" placeholder="Enter here . . ."></input>
+          </div>
+          <div id="Submission">
+              <button class="submitButton" id="submitclick" onclick="submitClicked()">Submit</button>
+          </div> -->
+          
+          
+          
+        </div>
+   
+ 
+   
+    
+    
+    
     <div><a id="error_msg"></a></div>
+    
     <div id="grid"></div>
     <div id="footnote"></div>
     <div id="buttons"></div>
     </div>
 
     <script src="/hadatac/assets/sheetjs/js/shim.js"></script>
+    
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
     <script src="/hadatac/assets/sheetjs/js/dropsheet.js"></script>
     <script src="/hadatac/assets/sheetjs/js/load_from_server.js"></script>
     <script src="/hadatac/assets/sheetjs/vendor/spin.js"></script>
-
+    <script src="/hadatac/assets/sheetjs/js/changes.js"></script>
+    
     <script type="text/javascript">
     /* set up async GET request */
-    //var url = "/hadatac/annotator/downloadfile?file_id=439c8b71-470f-4f1f-8d80-3f2a299b6fb9".replace(/&amp;/g, '&');
+    //var url = "/hadatac/annotator/downloadfile?file_id=439c8b71-470f-4f1f-8d80-3f2a299b6fb9".replace(/&amp;/g, '&')
+    
     var url = "SDD-34.xlsx"
     var _upload = document.getElementById('upload');
     var _onreponse = function() {
