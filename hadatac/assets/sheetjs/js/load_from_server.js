@@ -47,8 +47,8 @@ var make_buttons = function(sheetnames, cb) {
     btn.type = 'button';
     btn.name = 'btn' + idx;
     btn.text = s;
-    var txt = document.createElement('h5'); 
-    txt.innerText = s; 
+    var txt = document.createElement('h5');
+    txt.innerText = s;
     btn.appendChild(txt);
     btn.addEventListener('click', function() { cb(idx); }, false);
     buttons.appendChild(btn);
@@ -68,13 +68,13 @@ var colNum=0;
 var rowNum=0;
 cdg.addEventListener('click', function (e) {
   if (!e.cell) { return; }
-  
+
   clearMenu();
   cellsClicked.push(e.cell.value);
   var colval=cdg.data[0][e.cell.columnIndex];
   colval=colval.charAt(0).toLowerCase() + colval.slice(1);
   var rowval=cdg.data[e.cell.rowIndex][0];
-  
+
   colNum=e.cell.columnIndex;
   rowNum=e.cell.rowIndex;
   //submitClicked.addEventListener("click",submitClicked(e));
@@ -85,16 +85,16 @@ cdg.addEventListener('click', function (e) {
     clearMenu();
     hideView();
     alert("The first row cannot be edited");
-    
+
   }
   else{
     var menuoptns=[];
     jsonparser(colval,rowval,menuoptns);
-  }  
+  }
 });
 
 cdg.addEventListener('click', function (e) {
-  
+
   if (!e.cell) { return; }
   else if(e.cell.columnIndex!=0){return;}
   else if(e.cell.columnIndex==0 &&e.cell.rowIndex==0){return;}
@@ -117,20 +117,20 @@ function chooseItem(data) {
   var choice=data.value.split(",");
   cdg.data[rowNum][colNum] = choice[1];
   cdg.draw();
-  
+
 }
 
 function rowEnteredAdd(){
   var intendedRow=parseFloat(document.getElementById("textInput1").value);
-  cdg.insertRow(_grid,intendedRow-1);
+  cdg.insertRow([],intendedRow-1); // The first argument splices a js array into the csv data, so to insert a blank row insert an empty array
   document.getElementById('textInput1').value = "";
-  
+
 }
 function rowEnteredRemove(){
   var intendedRow=parseFloat(document.getElementById("textInput2").value);
   cdg.deleteRow(intendedRow-1);
   document.getElementById('textInput2').value = "";
-  
+
 }
 
 function _resize() {
@@ -158,13 +158,13 @@ var _onsheet = function(json, sheetnames, select_sheet_cb) {
   }
 
   /* load data */
-   
-  cdg.data = json;  
+
+  cdg.data = json;
   for(var i=0;i<cdg.data[0].length;i++){
     cdg.schema[i].title = cdg.data[0][cdg.schema[i].name];
   }
   cdg.draw();
-  
+
 };
 
 
@@ -176,7 +176,7 @@ function jsonparser(colval,rowval,menuoptns){
   xhr.open('GET', url, true);
   xhr.responseType = 'json';
   xhr.onload = function() {
-      var status = xhr.status; 
+      var status = xhr.status;
       if (status == 200) {
           callback(null, xhr.response);
       } else {
@@ -190,7 +190,7 @@ function jsonparser(colval,rowval,menuoptns){
   getJSON('http://128.113.106.57:5000/get-sdd/',  function(err, data) {
   if (err != null) {
       console.error(err);
-  } 
+  }
   else {
     var colvalarray=Object.keys(data["sdd"]["Dictionary Mapping"]["columns"]["0"]);
     var checkcolval;
@@ -206,7 +206,7 @@ function jsonparser(colval,rowval,menuoptns){
         index=j;
       }
     }
-    
+
     if(data["sdd"]["Dictionary Mapping"]["columns"][index]["column"]==rowval && colval==checkcolval){
       for(var i=0;i<data["sdd"]["Dictionary Mapping"]["columns"][index][colval].length;i++){
         var temp=[];
@@ -215,11 +215,11 @@ function jsonparser(colval,rowval,menuoptns){
         menuoptns.push(temp);
       }
     }
-    
+
     //console.log(menuoptns);
     menuoptns=menuoptns.sort(sortByConfidence);
     createNewMenu(menuoptns);
-    }  
+    }
   });
 }
 
@@ -236,10 +236,10 @@ function createNewMenu(menuoptns){
       optns.value=opt;
       select.appendChild(optns);
     }
-      
-      
+
+
   }
-  
+
 }
 
 function clearMenu(){
@@ -251,7 +251,7 @@ function clearMenu(){
       for(var i = selectbox.options.length - 1 ; i > 0 ; i--){
         selectbox.remove(i);
     }
-    
+
     }
   }
   function sortByConfidence(a,b){
@@ -298,10 +298,10 @@ function DDExceltoJSON(varnameElement){
         if(xlarray[i]['VARNAME ']==varnameElement){
           indx=i;
           document.getElementById("varDescription").value=xlarray[indx]['VARDESC '];
-          
+
         }
       }
-      
+
       //console.log(xlarray[0]['VARNAME ']);
   }
 
